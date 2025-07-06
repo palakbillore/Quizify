@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+#popUpWindow {
+  margin-top: -120px;
+  position: absolute;
+  z-index: 300;
+  border-radius: 20px;
+  width: 80%;
+  margin-left: 10%;
+  display: none;
+  border: 0px solid;
+  background-color: black;
+}
+
+#quizContainer {
+  overflow: auto; /* or overflow-y: scroll; */
+  max-height: 400px; /* Adjust based on your layout */
+
+  /* Hide scrollbar styles */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+#quizContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+#loader {
+  border: 8px solid transparent; /* Light gray */
+  border-top: 8px solid #3498db;
+  border-bottom: 8px solid rgba(255, 0, 0, 0.626);
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+  display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+h1 {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  margin: 10px 0;
+  padding: 5px;
+  text-align: center;
+}
+
+#ques {
+  color: white;
+  /* background-color: #e6f0ff; */
+}
+
+#right {
+  color: white;
+  /* background-color: #e9fbe9; */
+}
+
+#wrong {
+  color: white;
+  /* background-color: #ffe6e6; */
+}

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Quiz App</title>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            animation: {
+              "fade-in": "fadeIn 0.5s ease-in-out",
+              "slide-up": "slideUp 0.6s ease-out",
+              wiggle: "wiggle 1s ease-in-out infinite",
+              glow: "glow 2s ease-in-out infinite alternate",
+            },
+            keyframes: {
+              fadeIn: {
+                "0%": { opacity: "0", transform: "translateY(10px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              slideUp: {
+                "0%": { opacity: "0", transform: "translateY(20px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              wiggle: {
+                "0%, 100%": { transform: "rotate(-3deg)" },
+                "50%": { transform: "rotate(3deg)" },
+              },
+              glow: {
+                "0%": { boxShadow: "0 0 20px rgba(59, 130, 246, 0.5)" },
+                "100%": { boxShadow: "0 0 30px rgba(59, 130, 246, 0.8)" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative"
+  >
+    <!-- Geometric Background Pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <div
+        class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-600 to-purple-600"
+        style="clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 85%)"
+      ></div>
+      <div
+        class="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-l from-pink-600 to-indigo-600"
+        style="clip-path: polygon(15% 0, 100% 15%, 100% 100%, 0 100%)"
+      ></div>
+    </div>
+
+    <!-- Header -->
+    <header class="relative z-10 text-center py-12 animate-fade-in">
+      <h1 class="text-5xl font-black text-white mb-4 tracking-tight">
+        <span
+          class="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"
+          >Quizify</span
+        >
+        <span class="text-white">Generator</span>
+      </h1>
+      <p
+        class="text-xl text-gray-300 font-light max-w-2xl mx-auto leading-relaxed"
+      >
+        Transform any topic into an engaging quiz experience with artificial
+        intelligence
+      </p>
+    </header>
+
+    <!-- Main Content - Card Layout -->
+    <main class="relative z-10 max-w-6xl mx-auto px-6 pb-12">
+      <!-- // Popup Window -->
+      <div
+        id="popUpWindow"
+        class="flex items-center justify-center bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-20 border border-gray-100"
+      >
+        <div class="glass-card rounded-3xl p-8 mb-8 animate-slide-up">
+          <!-- Score Overview -->
+          <div class="text-center mb-8">
+            <div class="inline-block animate-bounce-in">
+              <div
+                id="percentageTag"
+                class="text-6xl md:text-7xl font-bold text-white mb-2"
+              ></div>
+              <div class="text-xl text-gray-200">Overall Score</div>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Correct Answers -->
+            <div
+              class="glass-card rounded-2xl p-6 text-center animate-fade-in"
+              style="animation-delay: 0.2s"
+            >
+              <div
+                id="correctAnsTag"
+                class="text-3xl font-bold text-green-400 mb-2"
+              ></div>
+              <div class="text-gray-200 font-medium">Correct</div>
+            </div>
+
+            <!-- Wrong Answers -->
+            <div
+              class="glass-card rounded-2xl p-6 text-center animate-fade-in"
+              style="animation-delay: 0.4s"
+            >
+              <div
+                id="worngAns"
+                class="text-3xl font-bold text-red-400 mb-2"
+              ></div>
+              <div class="text-gray-200 font-medium">Wrong</div>
+            </div>
+
+            <!-- Total Questions -->
+            <div
+              class="glass-card rounded-2xl p-6 text-center animate-fade-in"
+              style="animation-delay: 0.6s"
+            >
+              <div
+                id="totalQ"
+                class="text-3xl font-bold text-blue-400 mb-2"
+              ></div>
+              <div class="text-gray-200 font-medium">Total</div>
+            </div>
+          </div>
+
+          <!-- Progress Bar Section -->
+          <div class="mb-8 animate-fade-in" style="animation-delay: 0.8s">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-bold text-white">Progress</h3>
+              <span id="rwaRation" class="text-lg text-gray-200"></span>
+            </div>
+            <div class="w-full bg-white rounded-full h-6 overflow-hidden">
+              <!-- <div
+                class="bg-red-200 progress-bar h-6 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-full transition-all duration-1000"
+                style="--progress-width: 85%; width: 0%"
+              >
+              </div> -->
+              <div
+                id="bar"
+                class="bg-black bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-full transition-all duration-1000"
+              >
+                .
+              </div>
+            </div>
+            <div class="flex justify-between text-sm text-gray-300 mt-2">
+              <span>0%</span>
+              <span>85%</span>
+              <span>100%</span>
+            </div>
+          </div>
+
+          <!-- Detailed Breakdown -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- Accuracy Rate -->
+            <div
+              class="glass-card rounded-2xl p-6 animate-fade-in"
+              style="animation-delay: 1s"
+            >
+              <div class="flex items-center justify-between">
+                <div>
+                  <h4 class="text-lg font-semibold text-white mb-2">
+                    Accuracy Rate
+                  </h4>
+                  <div
+                    id="accuracy"
+                    class="text-2xl font-bold text-green-400"
+                  ></div>
+                </div>
+                <div class="text-4xl">🎯</div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div
+              class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in"
+              style="animation-delay: 1.4s"
+            >
+              <button
+                onclick="offWindow()"
+                class="px-8 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+              >
+                Take Another Quiz
+              </button>
+              <button
+                id="closeWindow"
+                onclick="offWindow()"
+                class="px-8 py-3 glass-card text-white rounded-xl font-semibold hover:bg-white/30 transition-all duration-300 transform hover:scale-105"
+              >
+                <!-- <button>close</button> -->Close
+              </button>
+            </div>
+          </div>
+
+          <!-- Performance Indicator -->
+          <div
+            class="text-center animate-fade-in"
+            style="animation-delay: 1.6s"
+          >
+            <div
+              class="inline-flex items-center glass-card rounded-full px-6 py-3"
+            >
+              <div class="text-2xl mr-3">🏆</div>
+              <div class="text-white">
+                <span class="font-semibold">Great Job!</span>
+                <span class="text-gray-300 ml-2"
+                  >Above average performance</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8 animate-slide-up">
+        <!-- Quiz Generator Card -->
+        <div
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-105"
+        >
+          <div class="flex items-center space-x-4 mb-8">
+            <div
+              class="p-3 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-2xl shadow-lg"
+            >
+              <svg
+                class="w-6 h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-white">Create Quiz</h2>
+              <p class="text-gray-300">Configure your perfect quiz</p>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Topic Input -->
+            <div class="group">
+              <label
+                class="block text-gray-200 font-semibold mb-3 text-sm uppercase tracking-wide"
+              >
+                Topic
+              </label>
+              <div class="relative">
+                <input
+                  type="text"
+                  id="topicInput"
+                  placeholder="JavaScript, History, Science, Math..."
+                  class="w-full p-4 bg-white/5 border-2 border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400 focus:ring-4 focus:ring-cyan-400/20 transition-all duration-300 backdrop-blur-sm"
+                />
+                <div class="absolute inset-y-0 right-4 flex items-center">
+                  <svg
+                    class="w-5 h-5 text-gray-400 group-focus-within:text-cyan-400 transition-colors"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Difficulty Pills -->
+            <div>
+              <label
+                class="block text-gray-200 font-semibold mb-4 text-sm uppercase tracking-wide"
+              >
+                Difficulty
+              </label>
+              <div class="flex flex-wrap gap-3">
+                <label class="group cursor-pointer">
+                  <input
+                    type="radio"
+                    name="level"
+                    value="easy"
+                    class="sr-only peer"
+                  />
+                  <div
+                    class="px-6 py-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-2 border-green-500/30 rounded-full text-green-300 font-bold peer-checked:from-green-500 peer-checked:to-emerald-500 peer-checked:text-white peer-checked:border-green-400 peer-checked:shadow-lg peer-checked:shadow-green-500/50 transition-all duration-300 hover:scale-105 flex items-center space-x-2"
+                  >
+                    <span></span>
+                    <span>Easy</span>
+                  </div>
+                </label>
+                <label class="group cursor-pointer">
+                  <input
+                    type="radio"
+                    name="level"
+                    value="medium"
+                    class="sr-only peer"
+                  />
+                  <div
+                    class="px-6 py-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-500/30 rounded-full text-yellow-300 font-bold peer-checked:from-yellow-500 peer-checked:to-orange-500 peer-checked:text-white peer-checked:border-yellow-400 peer-checked:shadow-lg peer-checked:shadow-yellow-500/50 transition-all duration-300 hover:scale-105 flex items-center space-x-2"
+                  >
+                    <span></span>
+                    <span>Medium</span>
+                  </div>
+                </label>
+                <label class="group cursor-pointer">
+                  <input
+                    type="radio"
+                    name="level"
+                    value="hard"
+                    class="sr-only peer"
+                  />
+                  <div
+                    class="px-6 py-3 bg-gradient-to-r from-red-500/20 to-pink-500/20 border-2 border-red-500/30 rounded-full text-red-300 font-bold peer-checked:from-red-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-red-400 peer-checked:shadow-lg peer-checked:shadow-red-500/50 transition-all duration-300 hover:scale-105 flex items-center space-x-2"
+                  >
+                    <span></span>
+                    <span>Hard</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Questions Count -->
+            <div class="group">
+              <label
+                class="block text-gray-200 font-semibold mb-3 text-sm uppercase tracking-wide"
+              >
+                Questions
+              </label>
+              <div class="relative">
+                <input
+                  type="number"
+                  id="number"
+                  placeholder="5"
+                  min="1"
+                  max="25"
+                  class="w-full p-4 bg-white/5 border-2 border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-4 focus:ring-purple-400/20 transition-all duration-300 backdrop-blur-sm"
+                />
+                <div class="absolute inset-y-0 right-4 flex items-center">
+                  <svg
+                    class="w-5 h-5 text-gray-400 group-focus-within:text-purple-400 transition-colors"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"
+                    ></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generate Button -->
+            <button
+              onclick="handleGenerateQuiz()"
+              class="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold py-4 px-8 rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-purple-500/50 group"
+            >
+              <span class="flex items-center justify-center space-x-3">
+                <svg
+                  class="w-6 h-6 group-hover:animate-wiggle"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  ></path>
+                </svg>
+                <span class="text-lg">Generate My Quiz</span>
+                <svg
+                  class="w-6 h-6 group-hover:animate-wiggle"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  ></path>
+                </svg>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz Display Card -->
+        <div
+          class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl"
+        >
+          <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center space-x-4">
+              <div
+                class="p-3 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl shadow-lg"
+              >
+                <svg
+                  class="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-white">Quiz Dashboard</h3>
+                <p class="text-gray-300">Your generated questions</p>
+              </div>
+            </div>
+
+            <!-- Stats Badge -->
+            <div
+              class="bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-4 py-2 rounded-full shadow-lg"
+            >
+              <div class="flex items-center space-x-2">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  ></path>
+                </svg>
+                <span id="totalQNumberCount" class="font-bold text-sm"
+                  >Total: <span id="qCountValue">0</span></span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Quiz Content Area -->
+          <div
+            class="bg-black/20 rounded-2xl p-6 min-h-[400px] max-h-[500px] overflow-y-auto backdrop-blur-sm border border-white/10"
+          >
+            <div id="quizContainer" class="space-y-4">
+              <!-- Empty State -->
+              <div class="text-center py-16">
+                <div class="inline-block p-8 mb-6">
+                  <div id="loader"></div>
+                </div>
+                <h4 class="text-xl font-bold text-white mb-3">
+                  Ready to Begin?
+                </h4>
+                <p class="text-gray-400 mb-6 max-w-sm mx-auto">
+                  Configure your quiz settings and click generate to create your
+                  personalized quiz experience.
+                </p>
+
+                <!-- Animated Dots -->
+                <div class="flex justify-center space-x-2">
+                  <div
+                    class="w-3 h-3 bg-blue-500 rounded-full animate-bounce"
+                  ></div>
+                  <div
+                    class="w-3 h-3 bg-purple-500 rounded-full animate-bounce"
+                    style="animation-delay: 0.1s"
+                  ></div>
+                  <div
+                    class="w-3 h-3 bg-pink-500 rounded-full animate-bounce"
+                    style="animation-delay: 0.2s"
+                  ></div>
+                  <div
+                    class="w-3 h-3 bg-indigo-500 rounded-full animate-bounce"
+                    style="animation-delay: 0.3s"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="./config.js"></script>
+    <script src="/src/renderQuest.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
