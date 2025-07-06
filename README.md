@@ -1,4 +1,4 @@
-```md
+
 # Quzify Ask AI
 
 An intelligent quiz generator web application that uses DeepSeek R1 AI to automatically generate quiz questions, options, and correct answers based on user input. Users can test themselves, get instant feedback, and view results in real-time.
