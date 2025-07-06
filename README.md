@@ -34,6 +34,8 @@ An intelligent quiz generator web application that uses DeepSeek R1 AI to automa
 3. User selects an answer for each question  
 4. On submission, the app calculates the score and shows a detailed result
 
+
+
 ## Project Structure
 
 ```
@@ -44,7 +46,13 @@ quzify-ask-ai/
 └── README.md
 ```
 
+- **Home** 
+![image](https://raw.githubusercontent.com/palakbillore/Quizify/main/src/assets/page1.PNG)
+
+
 ## Getting Started
+
+https://github.com/palakbillore/Quizify/blob/main/src/assets/page1.PNG
 
 ### Prerequisites
 
