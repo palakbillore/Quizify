@@ -56,7 +56,7 @@ quzify-ask-ai/
 
 ## Getting Started
 
-https://github.com/palakbillore/Quizify/blob/main/src/assets/page1.PNG
+https://github.com/palakbillore/Quizify/
 
 ### Prerequisites
 
