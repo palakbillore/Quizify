@@ -48,8 +48,10 @@ quzify-ask-ai/
 
 - **Home** 
 ![image](https://raw.githubusercontent.com/palakbillore/Quizify/main/src/assets/page1.PNG)
-![image](https://raw.githubusercontent.com/palakbillore/Quizify/blob/main/src/assets/page2.PNG)
-![image](https://raw.githubusercontent.com/palakbillore/Quizify/blob/main/src/assets/page3.PNG)
+- **Quiz** 
+![image](https://raw.githubusercontent.com/palakbillore/Quizify/main/src/assets/page2.PNG)
+- **Dashboard** 
+![image](https://raw.githubusercontent.com/palakbillore/Quizify/main/src/assets/page3.PNG)
 
 
 ## Getting Started
